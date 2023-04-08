@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-pragma solidity ^0.8.18;
+pragma solidity 0.8.18;
 
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -42,8 +42,8 @@ contract EulerClaims is ReentrancyGuard {
 
     // Owner functions
 
-    constructor(address initialOwner) {
-        owner = initialOwner;
+    constructor() {
+        owner = msg.sender;
     }
 
     modifier onlyOwner {
@@ -53,6 +53,7 @@ contract EulerClaims is ReentrancyGuard {
 
     function transferOwnership(address newOwner) external onlyOwner {
         owner = newOwner;
+        require(owner != address(0), "owner is zero");
         emit OwnerChanged(newOwner);
     }
 
@@ -77,7 +78,7 @@ contract EulerClaims is ReentrancyGuard {
     // Public functions
 
     /// @notice Claim tokens from Euler Redemption
-    /// @param acceptanceToken Custom token demonstrating the caller's agreement with the and Terms and Conditions of the claim (see contract source code)
+    /// @param acceptanceToken Custom token demonstrating the caller's agreement with the Terms and Conditions of the claim (see contract source code)
     /// @param index Index of distribution being claimed in the merkle tree
     /// @param tokenAmounts List of (token, amount) pairs for this claim
     /// @param proof Merkle proof that validates this claim

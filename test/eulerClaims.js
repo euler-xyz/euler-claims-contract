@@ -14,7 +14,7 @@ describe("EulerClaims", function () {
         const [owner, wallet1, wallet2] = await ethers.getSigners();
 
         const EulerClaims = await ethers.getContractFactory("EulerClaims");
-        const eulerClaims = await EulerClaims.deploy(owner.address);
+        const eulerClaims = await EulerClaims.deploy();
 
         const TestToken = await ethers.getContractFactory("TestToken");
         const tst1 = await TestToken.deploy(ethers.constants.MaxUint256);
@@ -265,6 +265,9 @@ describe("EulerClaims", function () {
 
             await expect(eulerClaims.connect(wallet1).transferOwnership(wallet1.address))
                 .to.be.revertedWith('unauthorized');
+
+            await expect(eulerClaims.transferOwnership(ethers.constants.AddressZero))
+                .to.be.revertedWith('owner is zero');
 
             await eulerClaims.transferOwnership(wallet1.address);
 
