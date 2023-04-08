@@ -1,6 +1,6 @@
-# Euler Claims
+# EulerClaims
 
-This smart contract implements a mechanism for users protocol to redeem funds that were stolen during the 2023-03-13 hack of the Euler protocol and were subsequently recovered.
+This smart contract implements a mechanism for users protocol to redeem funds that were stolen during the 2023-03-13 hack of the Euler protocol and subsequently recovered.
 
 It is a merkle-tree based distributor contract that can be used by both EOAs and multi-sig wallets. Neither the actual claimable amounts nor the code to calculate the distribution is stored in this repository.
 
