@@ -25,7 +25,7 @@ contract EulerClaims is ReentrancyGuard {
     //
     bytes32 constant private termsAndConditionsHash = 0x88237f4ba83ebd3a77bb33d44a5067d91fa9dbb17417741c8e224ada10e95314;
 
-    string public constant name = "Euler Claims";
+    string public constant name = "EulerClaims";
 
     address public owner;
     bytes32 public merkleRoot;

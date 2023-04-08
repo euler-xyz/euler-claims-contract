@@ -37,7 +37,7 @@ describe("EulerClaims", function () {
             let root = merkleTree.root(tree);
             await eulerClaims.updateMerkleRoot(root);
 
-            expect(await eulerClaims.name()).to.equal("Euler Claims");
+            expect(await eulerClaims.name()).to.equal("EulerClaims");
             expect(await eulerClaims.owner()).to.equal(owner.address);
             expect(await eulerClaims.merkleRoot()).to.equal(root);
 
