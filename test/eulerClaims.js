@@ -296,7 +296,7 @@ describe("EulerClaims", function () {
 
             // Only owner
 
-            await expect(eulerClaims.connect(wallet1).recoverFunds([], [[tst1.address, eth(200)]]))
+            await expect(eulerClaims.connect(wallet1).recoverTokens([], [[tst1.address, eth(200)]]))
                 .to.be.revertedWith('unauthorized');
 
             // Simple recovery without invalidating any index
@@ -304,14 +304,14 @@ describe("EulerClaims", function () {
             expect(await tst1.balanceOf(eulerClaims.address)).to.equal(eth(1000));
             let origOwnerBal = await tst1.balanceOf(owner.address);
 
-            await eulerClaims.recoverFunds([], [[tst1.address, eth(200)]]);
+            await eulerClaims.recoverTokens([], [[tst1.address, eth(200)]]);
 
             expect(await tst1.balanceOf(eulerClaims.address)).to.equal(eth(800));
             expect(await tst1.balanceOf(owner.address)).to.equal(origOwnerBal.add(eth(200)));
 
             // Multiple tokens
 
-            await eulerClaims.recoverFunds([], [[tst1.address, eth(200)], [tst2.address, eth(10)]]);
+            await eulerClaims.recoverTokens([], [[tst1.address, eth(200)], [tst2.address, eth(10)]]);
 
             expect(await tst1.balanceOf(eulerClaims.address)).to.equal(eth(600));
             expect(await tst2.balanceOf(eulerClaims.address)).to.equal(eth(40));
@@ -322,7 +322,7 @@ describe("EulerClaims", function () {
             expect(await eulerClaims.alreadyClaimed(1)).to.equal(false);
             expect(await eulerClaims.alreadyClaimed(3)).to.equal(false);
 
-            await eulerClaims.recoverFunds([1, 3], [[tst1.address, eth(2 + 4)]]);
+            await eulerClaims.recoverTokens([1, 3], [[tst1.address, eth(2 + 4)]]);
 
             expect(await eulerClaims.alreadyClaimed(0)).to.equal(false);
             expect(await eulerClaims.alreadyClaimed(1)).to.equal(true);
@@ -330,8 +330,24 @@ describe("EulerClaims", function () {
 
             // Already claimed
 
-            await expect(eulerClaims.recoverFunds([1, 3], [[tst1.address, eth(2 + 4)]]))
+            await expect(eulerClaims.recoverTokens([1, 3], [[tst1.address, eth(2 + 4)]]))
                 .to.be.revertedWith('already claimed');
+        });
+
+        // For this to test, add a payable fallback to the contract, ie "receive() external payable {}"
+
+        it.skip("Recover ETH", async function () {
+            const { eulerClaims, owner, tst1, tst2, wallet1, wallet2, } = await loadFixture(deployClaims);
+
+            await owner.sendTransaction({ to: eulerClaims.address, value: eth(1.321), });
+
+            let origOwnerBalance = await owner.getBalance();
+            let origClaimsBalance = await ethers.provider.getBalance(eulerClaims.address);
+
+            await eulerClaims.recoverEth(origClaimsBalance);
+
+            expect(await owner.getBalance()).to.be.greaterThan(origOwnerBalance); // + 1.321 - gas usage
+            expect(await ethers.provider.getBalance(eulerClaims.address)).to.equal(0);
         });
     });
 });

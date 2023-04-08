@@ -37,7 +37,8 @@ contract EulerClaims is ReentrancyGuard {
     }
 
     event OwnerChanged(address indexed newOwner);
-    event Claimed(uint indexed index);
+    event ClaimedAndAgreed(uint indexed index, address indexed account);
+    event ClaimedByOwner(uint indexed index);
     event MerkleRootUpdated(bytes32 indexed newMerkleRoot);
 
     // Owner functions
@@ -52,8 +53,8 @@ contract EulerClaims is ReentrancyGuard {
     }
 
     function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "owner is zero");
         owner = newOwner;
-        require(owner != address(0), "owner is zero");
         emit OwnerChanged(newOwner);
     }
 
@@ -62,17 +63,22 @@ contract EulerClaims is ReentrancyGuard {
         emit MerkleRootUpdated(newMerkleRoot);
     }
 
-    function recoverFunds(uint[] calldata indexList, TokenAmount[] calldata tokenAmounts) external onlyOwner nonReentrant {
+    function recoverTokens(uint[] calldata indexList, TokenAmount[] calldata tokenAmounts) external onlyOwner nonReentrant {
         for (uint i = 0; i < indexList.length; ++i) {
             uint index = indexList[i];
             require(!alreadyClaimed[index], "already claimed");
             alreadyClaimed[index] = true;
-            emit Claimed(index);
+            emit ClaimedByOwner(index);
         }
 
         for (uint i = 0; i < tokenAmounts.length; ++i) {
             SafeERC20.safeTransfer(IERC20(tokenAmounts[i].token), owner, tokenAmounts[i].amount);
         }
+    }
+
+    function recoverEth(uint amount) external onlyOwner nonReentrant {
+        (bool success,) = owner.call{value: amount}("");
+        require(success, "send eth failed");
     }
 
     // Public functions
@@ -89,7 +95,7 @@ contract EulerClaims is ReentrancyGuard {
 
         require(!alreadyClaimed[index], "already claimed");
         alreadyClaimed[index] = true;
-        emit Claimed(index);
+        emit ClaimedAndAgreed(index, msg.sender);
 
         for (uint i = 0; i < tokenAmounts.length; ++i) {
             SafeERC20.safeTransfer(IERC20(tokenAmounts[i].token), msg.sender, tokenAmounts[i].amount);
