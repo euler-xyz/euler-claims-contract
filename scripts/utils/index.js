@@ -1,21 +1,24 @@
 const merkleTreeLib = require("../../js/merkle-tree");
 const merkleTree = require("../../data/merkle-tree.json");
 const fs = require("fs");
+const { env } = require("../../env");
 
 let eth = (v) => ethers.utils.parseEther("" + v);
 
 async function updateMerkleRoot(eulerClaimsAddress, token0, token1) {
-  const accounts = await hre.ethers.getSigners();
+  const mnemonic = env().TEST_MNEMONIC;
+  const path = "m/44'/60'/0'/0/"; // this is the path to generate the accounts on
 
   // create a tree constant that iterates over account0 to account 10
-  let tree = Array.from(Array(10).keys()).map((item, idx) => {
+  let tree = Array.from(Array(100).keys()).map((item, idx) => {
+    const wallet = ethers.Wallet.fromMnemonic(mnemonic, path + idx);
     return [
       idx,
-      accounts[idx].address,
+      wallet.address,
       [
         idx % 2 === 0
-          ? [token0, eth(1 * (idx + 1)).toString()]
-          : [token1, eth(1 * (idx + 1)).toString()],
+          ? [token0, eth(1).toString()]
+          : [token1, eth(1).toString()],
       ],
     ];
   });
@@ -40,7 +43,7 @@ async function updateMerkleRoot(eulerClaimsAddress, token0, token1) {
   await eulerClaims.updateMerkleRoot(root);
 
   // get the last 6 items from the merkle tree
-  tree = newTestMerkleTree.slice(-10);
+  tree = newTestMerkleTree.slice(-100);
 
   for (let i = 0; i < tree.length; i++) {
     let proof = merkleTreeLib.proof(newTestMerkleTree, i);
