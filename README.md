@@ -7,6 +7,7 @@ It is a merkle-tree based distributor contract that can be used by both EOAs and
 ## Audits
 
 * [OtterSec](https://github.com/euler-xyz/euler-claims-contract/blob/master/audits/ottersec_euler_claims_audit_draft.pdf)
+* [Zellic](https://github.com/euler-xyz/euler-claims-contract/blob/master/audits/zellic_audit_report_draft.pdf)
 
 ## Terms and Conditions
 
