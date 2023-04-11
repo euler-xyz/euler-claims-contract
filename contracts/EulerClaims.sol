@@ -23,7 +23,7 @@ contract EulerClaims is ReentrancyGuard {
     // other such separate entity), by signing and sending a transaction I confirm that I am duly
     // authorised to enter into this contract on its behalf.
     //
-    bytes32 constant private termsAndConditionsHash = 0xc363fe4cdd3f22305ac245691fcdaee3ea8031ac1d5078fb042f886b7aec89c7;
+    bytes32 constant private termsAndConditionsHash = 0x427a506ff6e15bd1b7e4e93da52c8ec95f6af1279618a2f076946e83d8294996;
 
     string public constant name = "EulerClaims";
 
