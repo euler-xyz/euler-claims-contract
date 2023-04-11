@@ -8,8 +8,6 @@ It is a merkle-tree based distributor contract that can be used by both EOAs and
 
 * [OtterSec](https://github.com/euler-xyz/euler-claims-contract/blob/master/audits/ottersec_euler_claims_audit_draft.pdf)
 
-By signing and sending transactions that interact with this contract, you are agreeing to the following terms and conditions:
-
 ## Terms and Conditions
 
 By clicking "I agree to the terms to claim redemption" on the euler.finance web interface or executing the EulerClaims smart contract and accepting the redemption, I hereby irrevocably and unconditionally release all claims I (or my company or other separate legal entity) may have against Euler Labs, Ltd., the Euler Foundation, the Euler Decentralized Autonomous Organization, members of the Euler Decentralized Autonomous Organization, and any of their agents, affiliates, officers, employees, or principals related to this matter, whether such claims are known or unknown at this time and regardless of how such claims arise and the laws governing such claims (which shall include but not be limited to any claims arising out of Euler’s terms of use).  This release constitutes an express and voluntary binding waiver and relinquishment to the fullest extent permitted by law.  If I am acting for or on behalf of a company (or other such separate entity), by clicking "I agree to the terms to claim redemption" on the euler.finance web interface or executing the EulerClaims smart contract and accepting the redemption and agreement, I confirm that I am duly authorised to enter into this contract on its behalf.
