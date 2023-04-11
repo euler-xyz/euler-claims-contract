@@ -4,6 +4,10 @@ This smart contract implements a mechanism for users protocol to redeem funds th
 
 It is a merkle-tree based distributor contract that can be used by both EOAs and multi-sig wallets. Neither the actual claimable amounts nor the code to calculate the distribution is stored in this repository.
 
+## Audits
+
+* [OtterSec](https://github.com/euler-xyz/euler-claims-contract/blob/master/audits/ottersec_euler_claims_audit_draft.pdf)
+
 By signing and sending transactions that interact with this contract, you are agreeing to the following terms and conditions:
 
 ## Terms and Conditions
