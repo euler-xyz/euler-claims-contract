@@ -13,6 +13,7 @@ It is a merkle-tree based distributor contract that can be used by both EOAs and
 
 * [MerkleDist1](https://etherscan.io/address/0xbc8021015db2ca0599e0692d63ae6b91564cf026)
 * [MerkleDist2](https://etherscan.io/address/0xB4efe9d18696915523EF386e763070F0d5FE865f)
+* [MerkleDist3](https://etherscan.io/address/0x4DDce44ab524F49b4050D9d59D7cF61cDa865F84)
 
 ## Terms and Conditions
 
